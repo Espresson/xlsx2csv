@@ -6,19 +6,21 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
 	"github.com/tealeg/xlsx"
 )
 
 var xlsxPath = flag.String("f", "", "Path to an XLSX file")
 var sheetIndex = flag.Int("i", 0, "Index of sheet to convert, zero based")
-var delimiter = flag.String("d", ";", "Delimiter to use between fields")
+var delimiter = flag.String("d", ",", "Delimiter to use between fields")
 
 type outputer func(s string)
 
 func generateCSVFromXLSXFile(excelFileName string, sheetIndex int, outputf outputer) error {
+	fmt.Println("excelFileName:"+string(excelFileName))
+	fmt.Println("sheetIndex:"+string(sheetIndex))
 	xlFile, error := xlsx.OpenFile(excelFileName)
 	if error != nil {
+		fmt.Println(excelFileName)
 		return error
 	}
 	sheetLen := len(xlFile.Sheets)
@@ -48,6 +50,7 @@ func main() {
 		return
 	}
 	flag.Parse()
+	fmt.Println(xlsxPath)
 	printer := func(s string) { fmt.Printf("%s", s) }
 	if err := generateCSVFromXLSXFile(*xlsxPath, *sheetIndex, printer); err != nil {
 		fmt.Println(err)
