@@ -12,6 +12,7 @@ import (
 var xlsxPath = flag.String("f", "", "Path to an XLSX file")
 var sheetIndex = flag.Int("i", 0, "Index of sheet to convert, zero based")
 var delimiter = flag.String("d", ",", "Delimiter to use between fields")
+var isDir = flag.Bool("all","","All XLSX files in the current directory")
 
 type outputer func(s string)
 
@@ -39,6 +40,7 @@ func generateCSVFromXLSXFile(excelFileName string, sheetIndex int, outputf outpu
 	}
 	return nil
 }
+
 
 func main() {
 	flag.Parse()
